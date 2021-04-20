@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+}
+
+.Hacktheme {
+  display: flex;
+  color: rgb(87, 241, 87);
+  background-color: black;
+  height: 100vh;
+  line-height: 200%;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+.Footer {
+  color: rgb(87, 241, 87);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 2px solid rgb(87, 241, 87);
+}
+
+.Text {
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  color: rgb(87, 241, 87);
+  white-space: pre;
+}
+
+.Access {
+  position: absolute;
+  top: 200px;
+  padding: 20px;
+  min-width: 300px;
+  left: 50%;
+  margin-left: -150px;
+  text-align: center;
+  font-size: 40px;
+}
