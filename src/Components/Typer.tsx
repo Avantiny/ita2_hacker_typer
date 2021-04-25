@@ -4,6 +4,9 @@ import Cursor from './Cursor'
 import Footer from './Footer'
 import React from 'react'
 
+const MAX_TYPING_SPEED = 20
+const MIN_TYPING_SPEED = 1
+
 export type AccessType = 'not shown' | 'granted' | 'denied'
 type State = {
   numChars: number
@@ -28,6 +31,8 @@ class Typer extends React.Component<Props, State> {
     cursorTime: 500,
   }
 
+  scrolldownRef = React.createRef<HTMLDivElement>()
+
   keyAdd = () => {
     const isTextFinised = this.state.shownText.length >= Hackstring.length
     this.setState(p => ({
@@ -48,12 +53,12 @@ class Typer extends React.Component<Props, State> {
         this.setState({ access: 'not shown' })
         break
       case '+':
-        if (this.state.typingSpeed < 20) {
+        if (this.state.typingSpeed < MAX_TYPING_SPEED) {
           this.setState(prevsState => ({ typingSpeed: prevsState.typingSpeed + 1 }))
         }
         break
       case '-':
-        if (this.state.typingSpeed > 1) {
+        if (this.state.typingSpeed > MIN_TYPING_SPEED) {
           this.setState(prevsState => ({ typingSpeed: prevsState.typingSpeed - 1 }))
         }
         break
@@ -68,17 +73,21 @@ class Typer extends React.Component<Props, State> {
     setInterval(() => {
       this.setState(prevState => ({ cursorDisplay: !prevState.cursorDisplay }))
     }, this.state.cursorTime)
+    this.scrollToBottom()
   }
 
   componentDidUpdate() {
-    //TODO: add React ref
-    document.getElementById('123')?.scrollTo(0, document.getElementById('123')!.scrollHeight)
+    this.scrollToBottom()
+  }
+
+  scrollToBottom() {
+    this.scrolldownRef.current?.scrollIntoView()
   }
 
   render() {
     return (
       <div className='Hacktheme'>
-        <div className='Text' id='123'>
+        <div className='Text'>
           {this.state.shownText.split('\n').map((item, i) => (
             <div key={i}>
               {item}
@@ -88,6 +97,7 @@ class Typer extends React.Component<Props, State> {
             </div>
           ))}
           <Access ac={this.state.access} />
+          <div ref={this.scrolldownRef} />
         </div>
         <Footer typingSpeed={this.state.typingSpeed} />
       </div>
